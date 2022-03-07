@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS= -g -std=c++11 -fno-builtin-memcmp -msse -msse4.2
+CXXFLAGS= -g -std=c++17 -fno-builtin-memcmp -msse -msse4.2
 OPT=
 
 .PHONY: clean all
@@ -27,7 +27,7 @@ endif
 # Get processor numbers
 dummy := $(shell ("$(CURDIR)/../detect_environment" "$(CURDIR)/make_config.mk"))
 include make_config.mk
-LDFLAGS = -lpthread -lrt $(ROCKSDB_LDFLAGS)
+LDFLAGS = -lpthread -lrt -ljemalloc $(ROCKSDB_LDFLAGS)
 
 ifndef BLACKWIDOW_PATH
   $(warning Warning: missing blackwidow path, using default)
@@ -52,10 +52,10 @@ SLASH_LIBRARY=$(SLASH_PATH)/slash/lib/libslash.a
 
 ifndef GOOGLETEST_PATH
   $(warning Warning: missing googletest path, using default)
-	GOOGLETEST_PATH=../deps/googletest/googletest
+	GOOGLETEST_PATH=../deps/googletest
 endif
-GOOGLETEST_INCLUDE_DIR=$(GOOGLETEST_PATH)/include
-GOOGLETEST_LIBRARY=$(GOOGLETEST_PATH)/libgtest.a
+GOOGLETEST_INCLUDE_DIR=$(GOOGLETEST_PATH)/googletest/include
+GOOGLETEST_LIBRARY=$(GOOGLETEST_PATH)/googletest/libgtest.a
 
 CXXFLAGS+= -I$(BLACKWIDOW_PATH) -I$(BLACKWIDOW_INCLUDE_DIR) -I$(ROCKSDB_INCLUDE_DIR) -I$(SLASH_INCLUDE_DIR) -I$(GOOGLETEST_INCLUDE_DIR) $(OPT)
 

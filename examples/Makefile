@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-O2 -std=c++11 -fno-builtin-memcmp -msse -msse4.2
+CXXFLAGS=-O2 -std=c++17 -fno-builtin-memcmp -msse -msse4.2
 
 .PHONY: clean all
 
@@ -8,7 +8,7 @@ all: ROCKSDB strings_example hashes_example sets_example
 # Get processor numbers
 dummy := $(shell ("$(CURDIR)/../detect_environment" "$(CURDIR)/make_config.mk"))
 include make_config.mk
-LDFLAGS = -lpthread -lrt $(ROCKSDB_LDFLAGS)
+LDFLAGS = -lpthread -lrt -ljemalloc $(ROCKSDB_LDFLAGS)
 
 ifndef BLACKWIDOW_PATH
   $(warning Warning: missing blackwidow path, using default)
